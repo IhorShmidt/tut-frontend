@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,19 +6,27 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, toastr) {
+  function MainController($timeout, webDevTec, toastr, $mdBottomSheet, $mdSidenav) {
     var vm = this;
 
-    vm.awesomeThings = [];
+    vm.awesomeThings  = [];
     vm.classAnimation = '';
-    vm.creationDate = 1480702611422;
+    vm.creationDate   = 1480702611422;
+    vm.toggleList     = toggleUsersList;
+    vm.mainPage       = false;
+
     vm.showToastr = showToastr;
 
     activate();
 
+    // function mainPage(){
+    //   console.log('ff');
+    //    vm.show=true;
+    //  }
+
     function activate() {
       getWebDevTec();
-      $timeout(function() {
+      $timeout(function () {
         vm.classAnimation = 'rubberBand';
       }, 4000);
     }
@@ -31,9 +39,84 @@
     function getWebDevTec() {
       vm.awesomeThings = webDevTec.getTec();
 
-      angular.forEach(vm.awesomeThings, function(awesomeThing) {
+      angular.forEach(vm.awesomeThings, function (awesomeThing) {
         awesomeThing.rank = Math.random();
       });
     }
+
+    vm.selectUser = function (user) {
+      vm.selected = user;
+      $mdBottomSheet.hide();
+    };
+
+    function toggleUsersList() {
+      $mdSidenav('left').toggle();
+    }
+
+
+    vm.share = function (selectedUser) {
+
+      $mdBottomSheet.show({
+        controllerAs: "vm",
+        // controller  :  'ContactSheetController',
+        controller  : ['$mdBottomSheet', ContactSheetController],
+        templateUrl : './app/components/contactSheet/contactSheet.html',
+        parent      : angular.element(document.getElementById('content'))
+      });
+
+      function ContactSheetController($mdBottomSheet) {
+        var vm         = this;
+        vm.user        = selectedUser;
+        vm.items       = [
+          {name: 'Phone', icon: 'phone', icon_url: './assets/images/phone.svg'},
+          {name: 'Twitter', icon: 'twitter', icon_url: './assets/images/twitter.svg'},
+          {name: 'Google+', icon: 'google_plus', icon_url: './assets/images/google_plus.svg'},
+          {name: 'Hangout', icon: 'hangouts', icon_url: './assets/images/hangouts.svg'}
+        ];
+        vm.contactUser = function (action) {
+          $mdBottomSheet.hide(action);
+        };
+      }
+
+    };
+
+
+
+
+
+    var dbPost = [{
+      ttitle: "." +
+      "" +
+      ""
+    }]
+
+    var dbUser = [
+      {
+        name   : 'Ihor',
+        avatar : './assets/images/user.svg',
+        content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at"
+      },
+      {
+        name   : 'Vitalik',
+        avatar : './assets/images/pacman.svg',
+        content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to "
+      },
+      {
+        name   : 'Volkov',
+        avatar : './assets/images/happy2.svg',
+        content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to"
+      },
+      {
+        name   : 'Vova',
+        avatar : './assets/images/user.svg',
+        content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to"
+      }
+    ];
+
+    vm.users = dbUser;
+
+    vm.selected = vm.users[0];
+
+
   }
 })();

@@ -1,0 +1,8 @@
+<md-list>
+  <md-list-item ng-repeat="u in main.users">
+    <md-button ng-click="main.selectUser(u)" ng-class="{'selected' : u === main.selected }">
+      <md-icon md-svg-icon="{{u.avatar}}" class="avatar"></md-icon>
+      {{u.name}}
+    </md-button>
+  </md-list-item>
+</md-list>
