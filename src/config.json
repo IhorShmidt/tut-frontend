@@ -1,0 +1,8 @@
+{
+  "development": {
+    "API_EP": "http://localhost:3009/v1"
+  },
+  "staging": {
+    "API_EP": "https://todolist-backend.herokuapp.com"
+  }
+}

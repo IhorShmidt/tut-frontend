@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, toastr, $mdBottomSheet, $mdSidenav) {
+  function MainController($timeout, webDevTec, toastr, $mdBottomSheet, $mdSidenav, elBlogService) {
     var vm = this;
 
     vm.awesomeThings  = [];
@@ -16,13 +16,9 @@
     vm.mainPage       = false;
 
     vm.showToastr = showToastr;
-
+    vm.users = users();
+    vm.posts = posts;
     activate();
-
-    // function mainPage(){
-    //   console.log('ff');
-    //    vm.show=true;
-    //  }
 
     function activate() {
       getWebDevTec();
@@ -46,6 +42,8 @@
 
     vm.selectUser = function (user) {
       vm.selected = user;
+      posts(user);
+
       $mdBottomSheet.hide();
     };
 
@@ -58,7 +56,6 @@
 
       $mdBottomSheet.show({
         controllerAs: "vm",
-        // controller  :  'ContactSheetController',
         controller  : ['$mdBottomSheet', ContactSheetController],
         templateUrl : './app/components/contactSheet/contactSheet.html',
         parent      : angular.element(document.getElementById('content'))
@@ -80,42 +77,56 @@
 
     };
 
+    // var dbPost = [{
+    //   ttitle: "." +
+    //   "" +
+    //   ""
+    // }];
+    //
+    // var dbUser = [
+    //   {
+    //     name   : 'Ihor',
+    //     avatar : './assets/images/user.svg',
+    //     content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at"
+    //   },
+    //   {
+    //     name   : 'Vitalik',
+    //     avatar : './assets/images/pacman.svg',
+    //     content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to "
+    //   },
+    //   {
+    //     name   : 'Volkov',
+    //     avatar : './assets/images/happy2.svg',
+    //     content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to"
+    //   },
+    //   {
+    //     name   : 'Vova',
+    //     avatar : './assets/images/user.svg',
+    //     content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to"
+    //   }
+    // ];
 
 
 
 
-    var dbPost = [{
-      ttitle: "." +
-      "" +
-      ""
-    }]
 
-    var dbUser = [
-      {
-        name   : 'Ihor',
-        avatar : './assets/images/user.svg',
-        content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at"
-      },
-      {
-        name   : 'Vitalik',
-        avatar : './assets/images/pacman.svg',
-        content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to "
-      },
-      {
-        name   : 'Volkov',
-        avatar : './assets/images/happy2.svg',
-        content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to"
-      },
-      {
-        name   : 'Vova',
-        avatar : './assets/images/user.svg',
-        content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to"
-      }
-    ];
+    function users() {
+      elBlogService.users()
+        .then(function (result) {
+          vm.users = result;
+          vm.selected = vm.users[0];
 
-    vm.users = dbUser;
+        });
+    }
 
-    vm.selected = vm.users[0];
+    function posts(user) {
+
+      elBlogService.posts(user)
+         .then(function (result) {
+           console.log(result);
+           vm.posts =  result;
+         })
+    }
 
 
   }
