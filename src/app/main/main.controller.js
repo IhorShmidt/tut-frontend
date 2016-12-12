@@ -14,11 +14,15 @@
     vm.creationDate   = 1480702611422;
     vm.toggleList     = toggleUsersList;
     vm.mainPage       = false;
-
     vm.showToastr = showToastr;
     vm.users = users();
     vm.posts = posts;
+    vm.cons = cons;
     activate();
+
+    function cons() {
+    console.log('sdf');
+    }
 
     function activate() {
       getWebDevTec();
@@ -120,7 +124,6 @@
     }
 
     function posts(user) {
-
       elBlogService.posts(user)
          .then(function (result) {
            console.log(result);

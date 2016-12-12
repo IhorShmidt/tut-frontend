@@ -7,6 +7,8 @@
 
 @import url(//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Roboto:400,700,700italic,400italic);
 
+@import url(//fonts.googleapis.com/css?family=Open+Sans:300i);
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -50,7 +52,9 @@ html {
 
 [layout=row] {
   flex-direction: row;
+
 }
+
 
 .browsehappy {
   margin: 0.2em 0;
@@ -99,14 +103,22 @@ section.jumbotron {
 
 
 html, body {
-  font-family: 'Roboto', sans-serif;
-  font-size:14px;
+  font-family: "open_sansregular","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size:16px;
+
   height:100%;
   margin: 0px;
   padding: 0px;
 }
 
 /** Enabled Step 3... */
+
+md-toolbar {
+  justify-content: center;
+  background: #2d313a!important;
+
+
+}
 
 md-toolbar h3 {
   margin: auto;
@@ -115,18 +127,20 @@ md-toolbar h3 {
 
 md-list-item > button {
   width:100%;
-  text-align:left !important;
+  //text-align:left !important;
+  background: #fafbfb;
 }
 
 #content  {
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 10%;
+  padding-right: 10%;
   padding-top: 5px;
   height: 100%;
+  text-align: justify;
 }
 
 md-content{
-
+overflow: visible;
 }
 #content .md-button.share {
   background-color: transparent;
@@ -162,7 +176,7 @@ md-content{
 }
 
 .selected {
-  background-color: #03a9f4;
+  background-color: #7b8a8e;
 }
 
 .menu {
@@ -173,20 +187,24 @@ md-content{
   width: 36px;
 }
 
-md-toolbar {
-  justify-content: center;
-}
+
+
 md-list-item{
   height: 100%;
 }
 md-list.center-height{
   height: 100%;
+  width: 75%;
+  margin-left: 13%;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+
 }
 
 
-//md-list .md-button.selected {
-//
-//}
+md-list  {
+padding: 0 ;
+}
 span.name {
   font-weight: bold;
   font-size:1.1em;
@@ -207,7 +225,57 @@ display: flex;
 .center-side{
   flex-grow: 15;
   width: 20%;
+  background: #fafbfb;
 }
 .right-side{
   flex-grow: 2;
+}
+
+.title{
+  //font-family: "Cormorant Garamond", georgia,sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 40px;
+  text-align: center;
+  color: #384455;
+  margin: 0 0 32px 0;
+}
+.title .post__meta{
+  text-align: center;
+}
+.post__meta__divider{
+  height: 1px;
+  background-color: #f3f3f3;
+  width: 100%;
+  margin-top: -10px;
+  margin-bottom: 39px;
+}
+.post__meta{
+  text-align: center!important;
+  font-size: 16px;
+  color: #b1b1b1;
+  font-style: italic;
+  position: relative;
+  background-color: white;
+  padding: 0 10px;
+}
+.post-single{
+  border-bottom: 1px solid #e7e5e5;
+  padding-bottom: 47px;
+  margin: 48px 0;
+  text-align: center;
+}
+.post__button {
+  text-align: center;
+  margin: 25px 0 0;
+}
+.button {
+  text-decoration: none;
+  display: inline-block;
+  font-family: "open_sanssemibold","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #b1b1b1;
+  border: 1px solid rgba(0,0,0,0.15);
+  padding: 13px 23px 13px 26px;
+  border-radius: 26px;
 }

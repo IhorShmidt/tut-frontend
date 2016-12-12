@@ -11,7 +11,7 @@
       </md-button>
     </div>
     <div class="title-menu">
-      <h1>Angular Material - Starter App</h1>
+      <h1>Angular Material - Blog</h1>
     </div>
   </md-toolbar>
 
@@ -30,30 +30,18 @@
       </md-list>
     </md-sidenav>
 
-
-    <!--<md-list>-->
-    <!--<md-content flex id="content">-->
-    <!--<md-icon md-svg-icon="{{main.selected.avatar}}" class="avatar"></md-icon>-->
-    <!--<h2>{{main.selected.name}}</h2>-->
-    <!--<p>{{main.selected.content}}</p>-->
-
-    <!--<md-button class="share" md-no-ink ng-click="main.share(main.selected)">-->
-    <!--<md-icon md-svg-icon="./assets/images/share.svg"></md-icon>-->
-    <!--</md-button>-->
-    <!--</md-content>-->
-    <!--</md-list>-->
-
-
     <div class="center-side">
       <md-list class="center-height">
         <md-list-item>
           <md-content flex id="content">
             <md-icon md-svg-icon="{{main.selected.avatar}}" class="avatar"></md-icon>
             <h2>{{main.selected.firstName}}&nbsp{{main.selected.lastName}}</h2>
-            <p ng-repeat="p in main.posts">
-              {{p.title}}
-              <br>
-              {{p.text}}</p>
+            <!--<el-posts ng-hide="main.showPost" main="main" ></el-posts>-->
+            <!--<el-post ng-show="main.showPost"  main="main" ></el-post>-->
+            <div ui-view="posts"></div>
+            <!--<div ui-view="post"></div>-->
+            <div  ui-view="details"></div>
+
 
             <md-button class="share" md-no-ink ng-click="main.share(main.selected)">
               <md-icon md-svg-icon="./assets/images/share.svg"></md-icon>

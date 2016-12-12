@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -9,16 +9,30 @@
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
-        url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainController',
-        controllerAs: 'main'
+        url  : '/',
+        views: {
+          ''          : {
+            templateUrl : 'app/main/main.html',
+            controller  : 'MainController',
+            controllerAs: 'main'
+          },
+          'posts@home': {
+            templateUrl: 'app/components/lastPosts/lastPosts.html'
+          }
+          // 'post@posts': {
+          //   templateUrl: 'app/components/lastPosts/post.html'
+          //   // controller: 'MainController',
+          //   // controllerAs: 'main'
+          // }
+        }
       })
-      .state('home1', {
-        url: '/111',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainController',
-        controllerAs: 'main'
+      .state('post', {
+        parent: 'home',
+        views : {
+          'details@home': {
+            templateUrl: 'app/components/lastPosts/post.html'
+          }
+        }
       });
 
     $urlRouterProvider.otherwise('/');
