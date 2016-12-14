@@ -6,7 +6,7 @@
       <md-button class="menu" hide-gt-lg ng-click="main.toggleList()" aria-label="Show User List">
         <md-icon md-svg-icon="./assets/images/menu.svg"></md-icon>
       </md-button>
-      <md-button aria-label="Show Main Page">
+      <md-button ng-click="main.goMain()" aria-label="Show Main Page">
         Main
       </md-button>
     </div>
@@ -36,12 +36,7 @@
           <md-content flex id="content">
             <md-icon md-svg-icon="{{main.selected.avatar}}" class="avatar"></md-icon>
             <h2>{{main.selected.firstName}}&nbsp{{main.selected.lastName}}</h2>
-            <!--<el-posts ng-hide="main.showPost" main="main" ></el-posts>-->
-            <!--<el-post ng-show="main.showPost"  main="main" ></el-post>-->
             <div ui-view></div>
-            <!--<div ui-view="post"></div>-->
-            <!--<div  ui-view="details"></div>-->
-
 
             <md-button class="share" md-no-ink ng-click="main.share(main.selected)">
               <md-icon md-svg-icon="./assets/images/share.svg"></md-icon>
@@ -54,7 +49,7 @@
     <div class="right-side">
       <md-list>
         <md-list-item ng-repeat="u in main.users">
-          <md-button ng-click="main.selectUser(u)" ng-class="{'selected' : u === main.selected }">
+          <md-button ng-click="main.selectUser(u);main.posts(u)" ui-sref="post" ng-class="{'selected' : u === main.selected }">
             <md-icon md-svg-icon="{{u.avatar}}" class="avatar"></md-icon>
             {{u.firstName}}&nbsp{{u.lastName}}
           </md-button>

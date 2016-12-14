@@ -21,11 +21,19 @@
           return res;
         })
     }
+    function lastPosts() {
+      return Restangular.all('posts').getList()
+        .then(function (res) {
+          return res;
+          // console.log(res);
+        })
+    }
 
 
     return {
       users: users,
-      posts: posts
+      posts: posts,
+      lastPosts:lastPosts
 
     }
   }

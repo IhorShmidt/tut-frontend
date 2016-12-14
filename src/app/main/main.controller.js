@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, toastr, $mdBottomSheet, $mdSidenav, elBlogService) {
+  function MainController($state, $timeout, webDevTec, toastr, $mdBottomSheet, $mdSidenav, elBlogService) {
     var vm = this;
 
     vm.awesomeThings  = [];
@@ -19,6 +19,12 @@
     vm.posts = posts;
     vm.cons = cons;
     activate();
+    vm.lastPosts = lastPosts();
+    vm.goMain = goMain;
+
+    function goMain() {
+      $state.go('home')
+    }
 
     function cons() {
     console.log('sdf');
@@ -52,7 +58,6 @@
     };
 
     function toggleUsersList() {
-      console.log('sdf');
       $mdSidenav('left').toggle();
     }
 
@@ -125,11 +130,19 @@
     }
 
     function posts(user) {
+      // console.log(user._id);
       elBlogService.posts(user)
          .then(function (result) {
-           console.log(result);
+           // console.log(result);
            vm.posts =  result;
          })
+    }
+    function lastPosts() {
+      elBlogService.lastPosts()
+        .then(function (result) {
+          // console.log(result);
+          vm.lastPosts =  result;
+        })
     }
 
 
