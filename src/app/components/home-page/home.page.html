@@ -1,0 +1,74 @@
+<div layout="column" id="parent">
+
+
+  <md-toolbar layout="row">
+    <div class="button-menu">
+      <md-button class="menu" hide-gt-lg ng-click="home.toggleList()" aria-label="Show User List">
+        <md-icon md-svg-icon="./assets/images/menu.svg"></md-icon>
+      </md-button>
+      <md-button ng-click="home.goMain()" aria-label="Show Main Page">
+        Main
+      </md-button>
+    </div>
+    <div class="title-menu">
+      <h1>Angular Material - Blog</h1>
+    </div>
+  </md-toolbar>
+
+  <!-- Wireframe Container #2 -->
+  <div flex layout="row">
+    <!-- Wireframe Container #3 -->
+    <md-sidenav ng-click="home.toggleList()" md-is-open-closed="$mdMedia('gt-sm')" md-component-id="left"
+                class="md-whiteframe-z2">
+      <md-list>
+        <md-list-item ng-repeat="user in home.users">
+          <md-button ng-click="home.selectUser(user)" ng-class="{'selected' : user === home.selected }">
+            <!--<md-icon md-svg-icon="{{user.avatar}}" class="avatar"></md-icon>-->
+            {{user.firstName}}&nbsp{{user.lastName}}
+          </md-button>
+        </md-list-item>
+      </md-list>
+    </md-sidenav>
+
+    <div class="center-side">
+      <md-list class="center-height">
+        <md-list-item>
+          <md-content flex id="content">
+            <md-icon md-svg-icon="{{home.selected.avatar}}" class="avatar"></md-icon>
+            <h2>{{home.selected.firstName}}&nbsp{{home.selected.lastName}}</h2>
+
+            <div class="post-single" ng-repeat="post in home.lastPosts">
+              <h1 class="title">{{post.title}}</h1>
+              <span class="post__meta">{{post.createdAt| date: "MMMM dd, yyyy 'at' HH:mm"}}</span>
+              <div class="post__meta__divider"></div>
+              <p>{{post.text|limitTo:250}}...</p>
+              <div class="post__button">
+                <a ui-sref="post" class="button" ng-click="home.cons()">READ MORE</a>
+              </div>
+            </div>
+
+
+
+
+            <md-button class="share" md-no-ink ng-click="home.share(home.selected)">
+              <md-icon md-svg-icon="./assets/images/share.svg"></md-icon>
+            </md-button>
+          </md-content>
+        </md-list-item>
+      </md-list>
+    </div>
+
+    <div class="right-side">
+      <md-list>
+        <md-list-item ng-repeat="user in home.users">
+          <md-button ng-click="home.selectUser(user)" ng-class="{'selected' : user === home.selected }">
+            <md-icon md-svg-icon="{{user.avatar}}" class="avatar"></md-icon>
+            {{user.firstName}}&nbsp{{user.lastName}}
+          </md-button>
+        </md-list-item>
+      </md-list>
+    </div>
+
+
+  </div>
+</div>
