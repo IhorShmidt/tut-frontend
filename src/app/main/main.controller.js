@@ -52,6 +52,7 @@
     };
 
     function toggleUsersList() {
+      console.log('sdf');
       $mdSidenav('left').toggle();
     }
 

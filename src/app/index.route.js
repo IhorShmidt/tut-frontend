@@ -12,18 +12,18 @@
         url  : '/',
         views: {
           ''          : {
-            templateUrl : 'app/main/main.html',
+            templateUrl : 'app/components/lastPosts/lastPosts.html',
             controller  : 'MainController',
             controllerAs: 'main'
           },
           'posts@home': {
             templateUrl: 'app/components/lastPosts/lastPosts.html'
+          },
+          'post@posts': {
+            templateUrl: 'app/components/lastPosts/post.html',
+            controller: 'MainController',
+            controllerAs: 'main'
           }
-          // 'post@posts': {
-          //   templateUrl: 'app/components/lastPosts/post.html'
-          //   // controller: 'MainController',
-          //   // controllerAs: 'main'
-          // }
         }
       })
       .state('post', {
