@@ -9,33 +9,21 @@
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
-        url  : '/',
-        views: {
-          ''          : {
-            templateUrl : 'app/components/lastPosts/lastPosts.html',
-            controller  : 'MainController',
-            controllerAs: 'main'
-          }
-          // 'posts@home': {
-          //   templateUrl: 'app/components/lastPosts/lastPosts.html'
-
-          // 'post@posts': {
-          //   templateUrl: 'app/components/lastPosts/post.html',
-          //   controller: 'MainController',
-          //   controllerAs: 'main'
-          // }
-        }
+        url: '/',
+        templateUrl: 'app/components/home-page/home.page.html',
+        controller: 'HomeCtrl',
+        controllerAs: 'home'
       })
+      .state('userPosts', {
+        url: '/user/:id',
+        templateUrl: 'app/components/user-posts/user.posts.html',
+        controller: 'UserPostsCtrl',
+        controllerAs: 'vm'
 
-  .state('post', {
-      url: '/post',
-      templateUrl: 'app/components/lastPosts/post.html',
-      controller: 'MainController',
-      controllerAs: 'main'
-
-    });
+      });
 
     $urlRouterProvider.otherwise('/');
   }
 
-})();
+})
+();
