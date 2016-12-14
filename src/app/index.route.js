@@ -12,7 +12,12 @@
         url: '/',
         templateUrl: 'app/components/home-page/home.page.html',
         controller: 'HomeCtrl',
-        controllerAs: 'home'
+        controllerAs: 'home',
+        resolve:{
+          posts:function(postsDaoService){
+            return postsDaoService.getLastUsersPosts();
+          }
+        }
       })
       .state('userPosts', {
         url: '/user/:id',

@@ -6,7 +6,7 @@
     .controller('HomeCtrl', HomeCtrl);
 
   /** @ngInject */
-  function HomeCtrl($state, $timeout, toastr, $mdBottomSheet, $mdSidenav, postsDaoService) {
+  function HomeCtrl($state,posts, $timeout, toastr, $mdBottomSheet, $mdSidenav, postsDaoService) {
     var vm = this;
 
     vm.cons = cons;
@@ -16,7 +16,7 @@
     vm.selectUser = selectUser;
     vm.users = getUserList();
     vm.toggleList = toggleUsersList;
-    vm.lastPosts = getLastUsersPosts();
+    vm.lastPosts = posts;
 
     function goMain() {
       $state.go('home');
