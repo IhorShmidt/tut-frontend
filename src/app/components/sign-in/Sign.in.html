@@ -23,8 +23,7 @@
                  md-autofocus
                  required />
         </md-input-container>
-        <md-input-container class="md-block"
-                            ng-class="{'has-error': signIn_form.password.$invalid && (signIn_form.password.$touched || home.showValidationError )}">
+        <md-input-container class="md-block">
           <label>Password</label>
           <input type="password"
                  name="password"
@@ -45,7 +44,7 @@
     <md-dialog-actions layout="row">
       <!--<a href="" class="md-primary">Forgot Password?</a>-->
       <span flex></span>
-      <md-button type="submit" ng-disabled="signIn_form.$invalid" class="md-raised md-primary">Sign in</md-button>
+      <md-button type="submit" ng-click="home.hide()" ng-disabled="signIn_form.$invalid" class="md-raised md-primary">Sign in</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>

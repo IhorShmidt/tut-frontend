@@ -38,7 +38,6 @@
     }
 
     function getUserPost(id) {
-      console.log("sercice " + id);
       return Restangular.one('posts', id).customGET()
         .then(function (res) {
           console.log(res);
