@@ -5,8 +5,23 @@
     .module('tutFrontend')
     .factory('postsDaoService', postsDaoService);
 
-  function postsDaoService(Restangular) {
+  function postsDaoService(Restangular,jwtHelper, store) {
 
+    function login(credentials) {
+      return Restangular.one('auth').customPOST(credentials)
+        .then(function (response) {
+          console.log(response);
+          store.set('jwt', response.accessToken);
+          var decodedToken = jwtHelper.decodeToken(response.accessToken);
+          console.log(decodedToken);
+          store.set('user', {
+            id: decodedToken.userId,
+            firstName: response.firstName,
+            lastName: response.lastName
+          });
+          authManager.authenticate();
+        })
+    }
 
     function getUserList() {
       return Restangular.all('users').getList()
@@ -21,8 +36,9 @@
           return res;
         })
     }
+
     function getUserPost(id) {
-    console.log("sercice " + id);
+      console.log("sercice " + id);
       return Restangular.one('posts', id).customGET()
         .then(function (res) {
           console.log(res);
@@ -43,7 +59,8 @@
       getUserList: getUserList,
       getUserPosts: getUserPosts,
       getLastUsersPosts: getLastUsersPosts,
-      getUserPost:getUserPost
+      getUserPost: getUserPost,
+      login: login
     }
   }
 })();

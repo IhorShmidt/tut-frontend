@@ -6,12 +6,12 @@
     .controller('HomeCtrl', HomeCtrl);
 
   /** @ngInject */
-  function HomeCtrl($state, posts, $mdMedia, $timeout, toastr, $mdBottomSheet, $mdSidenav, postsDaoService, $mdDialog) {
+  function HomeCtrl($state, posts, $mdMedia, $timeout, toastr, $mdBottomSheet, $mdSidenav,$rootScope, postsDaoService, $mdDialog) {
     var vm = this;
 
+    /**HOME PAGE**/
     vm.goMain = goMain;
     vm.mainPage = false;
-    vm.init = getUserPosts;
     vm.selectUser = selectUser;
     vm.users = getUserList();
     vm.toggleList = toggleUsersList;
@@ -19,23 +19,62 @@
     vm.getUserPost = getUserPost;
 
 
+    /**POST MODAL DIALOG**/
     vm.showAdvanced = showAdvanced;
     vm.status = '  ';
     vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
     vm.answer = answer;
-    vm.hide = function () {
-      $mdDialog.hide();
-    };
+    vm.hide = hide;
+    vm.cancel = cancel;
 
-    vm.cancel = function () {
-      $mdDialog.cancel();
-    };
+    /**LOGIN DIALOG**/
+    vm.showDialog = showDialog;
+    vm.login = login;
+    vm.loginFail = false;
+    vm.user = {};
+    /** LOGIN DIALOG FUNCTIONS**/
 
-    function answer(answer) {
-      console.log('asdas');
-      $mdDialog.hide(answer);
+    function showDialog(post) {
+      getUserPost(post);
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
+
+      $mdDialog.show({
+        controller: function () {
+          return vm;
+        },
+        controllerAs: 'home',
+        templateUrl: './app/components/sign-in/sign.in.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: true,
+        fullscreen: useFullScreen
+      })
+        .then(function (answer) {
+          vm.status = 'You said the information was "' + answer + '".';
+        }, function () {
+          vm.status = 'You cancelled the dialog.';
+        });
+
     }
 
+    function login(credentials, formIsValid) {
+      if (formIsValid) {
+        postsDaoService.login(credentials)
+          .then(function () {
+            return $rootScope.$emit('logon-success');
+          })
+          .catch(function () {
+            vm.loginFail = true;
+          });
+      } else {
+        vm.showValidationError = true;
+        setTimeout(function () {
+          vm.showValidationError = false;
+        }, 3000);
+      }
+    }
+
+    /**POST MODAL DIALOG FUNCTIONS**/
     function showAdvanced(post) {
       getUserPost(post);
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
@@ -59,6 +98,21 @@
 
     }
 
+    function hide() {
+      $mdDialog.hide();
+    }
+
+    function cancel() {
+      $mdDialog.cancel();
+    }
+
+    function answer(answer) {
+      console.log('asdas');
+      $mdDialog.hide(answer);
+    }
+
+
+    /**HOME PAGE FUNCTIONS**/
     function getUserPost(post) {
       vm.post = post;
     }
@@ -136,7 +190,6 @@
     //   }
     // ];
 
-
     function getUserList() {
       postsDaoService.getUserList()
         .then(function (result) {
@@ -160,8 +213,6 @@
           vm.lastPosts = result;
         })
     }
-
-
   }
 
 })();

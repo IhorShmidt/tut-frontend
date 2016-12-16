@@ -1,0 +1,51 @@
+<md-dialog id="login-dialog" aria-label="Login" ng-cloak>
+  <form novalidate name="signIn_form" ng-submit="home.login(home.user, signIn_form.$valid)">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Log In</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="home.cancel()">
+          <md-icon  aria-label="Close dialog">
+            <i class="material-icons md-18">clear</i>
+          </md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container class="md-block"
+                            ng-class="{'has-error': signIn_form.email.$invalid && (signIn_form.email.$touched || home.showValidationError) }">
+          <label>Email</label>
+          <input type="email"
+                 name="email"
+                 ng-model="home.user.email"
+                 md-autofocus
+                 required />
+        </md-input-container>
+        <md-input-container class="md-block"
+                            ng-class="{'has-error': signIn_form.password.$invalid && (signIn_form.password.$touched || home.showValidationError )}">
+          <label>Password</label>
+          <input type="password"
+                 name="password"
+                 ng-model="home.user.password"
+                 required
+                 minlength="6"/>
+          <div ng-messages="signIn_form.password.$error"  >
+          <div  ng-message="minlength">
+            Password must contain at least 6 characters
+          </div>
+            </div>
+        </md-input-container>
+
+      </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <!--<a href="" class="md-primary">Forgot Password?</a>-->
+      <span flex></span>
+      <md-button type="submit" ng-disabled="signIn_form.$invalid" class="md-raised md-primary">Sign in</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>
