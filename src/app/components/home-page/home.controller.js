@@ -6,10 +6,9 @@
     .controller('HomeCtrl', HomeCtrl);
 
   /** @ngInject */
-  function HomeCtrl($state,posts, $timeout, toastr, $mdBottomSheet, $mdSidenav, postsDaoService) {
+  function HomeCtrl($state, posts, $mdMedia, $timeout, toastr, $mdBottomSheet, $mdSidenav, postsDaoService, $mdDialog) {
     var vm = this;
 
-    vm.cons = cons;
     vm.goMain = goMain;
     vm.mainPage = false;
     vm.init = getUserPosts;
@@ -17,28 +16,66 @@
     vm.users = getUserList();
     vm.toggleList = toggleUsersList;
     vm.lastPosts = posts;
+    vm.getUserPost = getUserPost;
+
+
+    vm.showAdvanced = showAdvanced;
+    vm.status = '  ';
+    vm.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+    vm.answer = answer;
+    vm.hide = function () {
+      $mdDialog.hide();
+    };
+
+    vm.cancel = function () {
+      $mdDialog.cancel();
+    };
+
+    function answer(answer) {
+      console.log('asdas');
+      $mdDialog.hide(answer);
+    }
+
+    function showAdvanced(post) {
+      getUserPost(post);
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
+
+      $mdDialog.show({
+        controller: function () {
+          return vm;
+        },
+        controllerAs: 'home',
+        templateUrl: './app/components/user-post-modal/user.post.modal.html',
+        parent: angular.element(document.body),
+        targetEvent: post,
+        clickOutsideToClose: true,
+        fullscreen: useFullScreen
+      })
+        .then(function (answer) {
+          vm.status = 'You said the information was "' + answer + '".';
+        }, function () {
+          vm.status = 'You cancelled the dialog.';
+        });
+
+    }
+
+    function getUserPost(post) {
+      vm.post = post;
+    }
 
     function goMain() {
       $state.go('home');
       getLastUsersPosts();
     }
 
-    function cons() {
-      console.log('sdf');
-    }
-
     function selectUser(user) {
       vm.selected = user;
-      // posts(user);
-      // console.log(user._id);
       postsDaoService.getUserPosts(user)
         .then(function (result) {
-          // console.log(result);
           vm.lastPosts = result;
-        })
-
+        });
       $mdBottomSheet.hide();
-    };
+    }
 
     function toggleUsersList() {
       $mdSidenav('left').toggle();
@@ -109,7 +146,6 @@
     }
 
     function getUserPosts(user) {
-      // console.log(user._id);
       postsDaoService.getUserPosts(user)
         .then(function (result) {
           // console.log(result);

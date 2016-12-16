@@ -1,9 +1,9 @@
 <p>dsff</p>
-<div  class="post-single" ng-repeat="p in main.posts">
-  <h1 class="title">{{p.title}}</h1>
-  <span class="post__meta">{{p.createdAt| date: "MMMM dd, yyyy 'at' HH:mm"}}</span>
+<div  class="post-single" ng-repeat="post in main.posts">
+  <h1 class="title">{{post.title}}</h1>
+  <span class="post__meta">{{post.createdAt| date: "MMMM dd, yyyy 'at' HH:mm"}}</span>
   <div class="post__meta__divider"></div>
-  <p>{{p.text|limitTo:250}}...</p>
+  <p>{{post.text|limitTo:250}}...</p>
   <div class="post__button">
 
   </div>

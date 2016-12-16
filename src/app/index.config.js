@@ -4,6 +4,9 @@
   angular
     .module('tutFrontend')
     .config(config)
+    .config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+  }])
     .config(function (RestangularProvider, API_EP) {
       // var API = 'http://localhost:3000/';
       RestangularProvider.setBaseUrl(API_EP);

@@ -43,14 +43,10 @@
               <div class="post__meta__divider"></div>
               <p>{{post.text|limitTo:250}}...</p>
               <div class="post__button">
-                <a ui-sref="post" class="button" ng-click="home.cons()">READ MORE</a>
+                <md-button class="button" aria-label="Show User Post" ng-click="home.showAdvanced(post)">READ MORE</md-button>
               </div>
             </div>
-
-
-
-
-            <md-button class="share" md-no-ink ng-click="home.share(home.selected)">
+            <md-button aria-label="Show User Contacts" class="share" md-no-ink ng-click="home.share(home.selected)">
               <md-icon md-svg-icon="./assets/images/share.svg"></md-icon>
             </md-button>
           </md-content>
@@ -61,7 +57,7 @@
     <div class="right-side">
       <md-list>
         <md-list-item ng-repeat="user in home.users">
-          <md-button ng-click="home.selectUser(user)" ng-class="{'selected' : user === home.selected }">
+          <md-button  ng-click="home.selectUser(user)" ng-class="{'selected' : user === home.selected }">
             <md-icon md-svg-icon="{{user.avatar}}" class="avatar"></md-icon>
             {{user.firstName}}&nbsp{{user.lastName}}
           </md-button>

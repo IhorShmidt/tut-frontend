@@ -21,6 +21,15 @@
           return res;
         })
     }
+    function getUserPost(id) {
+    console.log("sercice " + id);
+      return Restangular.one('posts', id).customGET()
+        .then(function (res) {
+          console.log(res);
+
+          return res;
+        })
+    }
 
     function getLastUsersPosts() {
       return Restangular.all('posts').getList()
@@ -33,7 +42,8 @@
     return {
       getUserList: getUserList,
       getUserPosts: getUserPosts,
-      getLastUsersPosts: getLastUsersPosts
+      getLastUsersPosts: getLastUsersPosts,
+      getUserPost:getUserPost
     }
   }
 })();
