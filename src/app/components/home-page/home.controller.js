@@ -6,7 +6,7 @@
     .controller('HomeCtrl', HomeCtrl);
 
   /** @ngInject */
-  function HomeCtrl($state, posts, $mdMedia, $timeout, toastr, $mdBottomSheet, $mdSidenav,$rootScope, postsDaoService, $mdDialog) {
+  function HomeCtrl($state, posts, $mdMedia, $timeout, toastr, $mdBottomSheet, $mdSidenav, $rootScope, postsDaoService, $mdDialog) {
     var vm = this;
 
     /**HOME PAGE**/
@@ -32,6 +32,7 @@
     vm.login = login;
     vm.loginFail = false;
     vm.user = {};
+    vm.cleanInput = cleanInput;
     /** LOGIN DIALOG FUNCTIONS**/
 
     function showDialog(post) {
@@ -63,8 +64,16 @@
           .then(function () {
             return $rootScope.$emit('logon-success');
           })
+          .then(function () {
+            vm.cleanInput(credentials);
+            return vm.hide();
+          })
           .catch(function () {
             vm.loginFail = true;
+            vm.cleanInput(credentials);
+            setTimeout(function () {
+              vm.loginFail = false;
+            }, 1000);
           });
       } else {
         vm.showValidationError = true;
@@ -72,6 +81,11 @@
           vm.showValidationError = false;
         }, 3000);
       }
+    }
+
+    function cleanInput(credentials) {
+      credentials.password = '';
+      credentials.email = '';
     }
 
     /**POST MODAL DIALOG FUNCTIONS**/

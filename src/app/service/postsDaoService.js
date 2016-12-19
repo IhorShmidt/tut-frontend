@@ -5,7 +5,7 @@
     .module('tutFrontend')
     .factory('postsDaoService', postsDaoService);
 
-  function postsDaoService(Restangular,jwtHelper, store) {
+  function postsDaoService(Restangular,jwtHelper, store,authManager) {
 
     function login(credentials) {
       return Restangular.one('auth').customPOST(credentials)
@@ -19,7 +19,7 @@
             firstName: response.firstName,
             lastName: response.lastName
           });
-          authManager.authenticate();
+          authManager.unauthenticate();
         })
     }
 
