@@ -33,6 +33,10 @@
     vm.loginFail = false;
     vm.user = {};
     vm.cleanInput = cleanInput;
+    vm.logout = logout;
+    vm.isLogin = false;
+
+
     /** LOGIN DIALOG FUNCTIONS**/
 
     function showDialog(post) {
@@ -62,7 +66,8 @@
       if (formIsValid) {
         postsDaoService.login(credentials)
           .then(function () {
-            return $rootScope.$emit('logon-success');
+            vm.isLogin = true;
+            return $rootScope.$emit('login-success');
           })
           .then(function () {
             vm.cleanInput(credentials);
@@ -82,6 +87,19 @@
         }, 3000);
       }
     }
+
+    function logout() {
+      postsDaoService.logout();
+      vm.isLogin = false;
+
+    }
+
+    vm.isLogin = function isLogin() {
+      postsDaoService.checkAuthOnRefresh();
+      return $rootScope.isAuthenticated;
+    }();
+    // vm.isLogin = $rootScope.isAuthenticated;
+
 
     function cleanInput(credentials) {
       credentials.password = '';
@@ -121,7 +139,6 @@
     }
 
     function answer(answer) {
-      console.log('asdas');
       $mdDialog.hide(answer);
     }
 

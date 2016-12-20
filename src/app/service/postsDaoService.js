@@ -5,7 +5,7 @@
     .module('tutFrontend')
     .factory('postsDaoService', postsDaoService);
 
-  function postsDaoService(Restangular,jwtHelper, store,authManager) {
+  function postsDaoService($rootScope, Restangular, jwtHelper, store, authManager) {
 
     function login(credentials) {
       return Restangular.one('auth').customPOST(credentials)
@@ -19,9 +19,29 @@
             firstName: response.firstName,
             lastName: response.lastName
           });
-          authManager.unauthenticate();
+          authManager.authenticate();
         })
     }
+
+    function checkAuthOnRefresh() {
+      var token = store.get('jwt');
+      if (token) {
+        console.log('token');
+        if (!jwtHelper.isTokenExpired(token)) {
+          if (!$rootScope.isAuthenticated) {
+            authManager.authenticate();
+          }
+        }
+      }
+    }
+
+
+    function logout() {
+      store.remove('jwt');
+      store.remove('user');
+      authManager.unauthenticate();
+    }
+
 
     function getUserList() {
       return Restangular.all('users').getList()
@@ -59,7 +79,9 @@
       getUserPosts: getUserPosts,
       getLastUsersPosts: getLastUsersPosts,
       getUserPost: getUserPost,
-      login: login
+      login: login,
+      logout: logout,
+      checkAuthOnRefresh: checkAuthOnRefresh
     }
   }
 })();
