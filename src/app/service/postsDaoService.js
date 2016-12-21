@@ -73,6 +73,13 @@
         })
     }
 
+    function createUser(data) {
+        return Restangular.all('users').post(data).
+          then(function(res) {
+          return res;
+        })
+    }
+
 
     return {
       getUserList: getUserList,
@@ -81,7 +88,8 @@
       getUserPost: getUserPost,
       login: login,
       logout: logout,
-      checkAuthOnRefresh: checkAuthOnRefresh
+      checkAuthOnRefresh: checkAuthOnRefresh,
+      createUser: createUser
     }
   }
 })();

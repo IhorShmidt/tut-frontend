@@ -1,0 +1,78 @@
+<md-dialog id="signup-dialog" aria-label="signup" ng-cloak>
+  <form  name="signUn_form" >
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Sign Un</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="home.cancel()">
+          <md-icon aria-label="Close dialog">
+            <i class="material-icons md-18">clear</i>
+          </md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container class="md-block"
+                            ng-class="{'has-error': signUn_form.FirstName.$invalid && (signUn_form.FirstName.$touched) }">
+          <label>FirstName</label>
+          <input type="text"
+                 name="FirstName"
+                 md-autofocus
+                 ng-model="home.user.firstName"
+                 ng-minlength="2"
+                 ng-maxlength="255"
+                 ng-pattern="/^[a-zA-Z0-9\s\.\#\/]+$/"
+                 required/>
+        </md-input-container>
+        <md-input-container class="md-block"
+                            ng-class="{'has-error': signUn_form.LastName.$invalid && (signUn_form.LastName.$touched) }">
+          <label>LastName</label>
+          <input type="text"
+                 name="LastName"
+                 ng-model="home.user.lastName"
+                 ng-minlength="2"
+                 ng-maxlength="255"
+                 ng-pattern="/^[a-zA-Z0-9\s\.\#\/]+$/"
+                 required/>
+        </md-input-container>
+        <md-input-container class="md-block"
+                            ng-class="{'has-error': signUn_form.email.$invalid && (signUn_form.email.$touched || home.showValidationError) }">
+          <label>Email</label>
+          <input type="email"
+                 name="email"
+                 ng-model="home.user.email"
+                 required/>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Password</label>
+          <input type="password"
+                 name="password"
+                 ng-model="home.user.password"
+                 required
+                 ng-minlength="6"/>
+          <div ng-messages="signUn_form.password.$error">
+            <div ng-message="minlength">
+              Password must contain at least 6 characters
+            </div>
+          </div>
+          <br>
+          <!--<div ng-messages="signUn_form.email.$error || signUn_form.password.$error" ng-show="home.loginFail">-->
+            <!--<div ng-message="required">The email address or password you entered did not match our records. Please-->
+              <!--double-check and try again.-->
+            <!--</div>-->
+          <!--</div>-->
+        </md-input-container>
+      </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <!--<a href="" class="md-primary">Forgot Password?</a>-->
+      <span flex></span>
+      <md-button data-ng-click="home.submit()" type="submit" ng-disabled="signUn_form.$invalid" class="md-raised md-primary">Sign in</md-button>
+
+    </md-dialog-actions>
+  </form>
+</md-dialog>

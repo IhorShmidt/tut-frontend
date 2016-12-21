@@ -36,11 +36,13 @@
     vm.logout = logout;
     vm.isLogin = false;
 
+    /**SIGNUP DIALOG**/
+    vm.submit = signup;
+    vm.showReg = showReg;
 
     /** LOGIN DIALOG FUNCTIONS**/
 
-    function showDialog(post) {
-      getUserPost(post);
+    function showDialog() {
       var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
 
       $mdDialog.show({
@@ -98,12 +100,44 @@
       postsDaoService.checkAuthOnRefresh();
       return $rootScope.isAuthenticated;
     }();
-    // vm.isLogin = $rootScope.isAuthenticated;
-
 
     function cleanInput(credentials) {
       credentials.password = '';
       credentials.email = '';
+    }
+
+    /**SIGNUP DIALOG FUNCTIONS**/
+
+    function showReg() {
+      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
+
+      $mdDialog.show({
+        controller: function () {
+          return vm;
+        },
+        controllerAs: 'home',
+        templateUrl: './app/components/sign-up/sign.up.html',
+        parent: angular.element(document.body),
+        targetEvent: event,
+        clickOutsideToClose: true,
+        fullscreen: useFullScreen
+      })
+        .then(function (answer) {
+          vm.status = 'You said the information was "' + answer + '".';
+        }, function () {
+          vm.status = 'You cancelled the dialog.';
+        });
+
+    }
+
+    function signup(){
+      postsDaoService.createUser(vm.user)
+        .then(function() {
+          vm.user.email = '';
+          vm.user.password = '';
+        });
+
+      showDialog();
     }
 
     /**POST MODAL DIALOG FUNCTIONS**/
@@ -192,47 +226,17 @@
 
     };
 
-    // var dbPost = [{
-    //   ttitle: "." +
-    //   "" +
-    //   ""
-    // }];
-    //
-    // var dbUser = [
-    //   {
-    //     name   : 'Ihor',
-    //     avatar : './assets/images/user.svg',
-    //     content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at"
-    //   },
-    //   {
-    //     name   : 'Vitalik',
-    //     avatar : './assets/images/pacman.svg',
-    //     content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to "
-    //   },
-    //   {
-    //     name   : 'Volkov',
-    //     avatar : './assets/images/happy2.svg',
-    //     content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to"
-    //   },
-    //   {
-    //     name   : 'Vova',
-    //     avatar : './assets/images/user.svg',
-    //     content: "elorme, d'lorm, or De l'Orme (1584–1678), was a medical doctor. Charles was the son of Jean Delorme (a professor at Montpellier University), who was the primary doctor to Marie de' Medici. This ultimately opened doors for Charles' medical career soon after he graduated from the University of Montpellier in 1607 at the age of 23. He first came to Paris after graduation to practice medicine under the watchful eye of his father, until he was ready to"
-    //   }
-    // ];
-
     function getUserList() {
       postsDaoService.getUserList()
         .then(function (result) {
           vm.users = result;
-          vm.selected = vm.users[0];
+          vm.selected = vm.users;
         });
     }
 
     function getUserPosts(user) {
       postsDaoService.getUserPosts(user)
         .then(function (result) {
-          // console.log(result);
           vm.posts = result;
         })
     }
@@ -240,7 +244,6 @@
     function getLastUsersPosts() {
       postsDaoService.getLastUsersPosts()
         .then(function (result) {
-          // console.log(result);
           vm.lastPosts = result;
         })
     }
