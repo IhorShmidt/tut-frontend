@@ -7,9 +7,11 @@
     .config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
   }])
-    .config(function (RestangularProvider, API_EP) {
-      // var API = 'http://localhost:3000/';
+    .config(function (RestangularProvider,  API_EP) {
       RestangularProvider.setBaseUrl(API_EP);
+      var token = localStorage.getItem('jwt');
+      token = JSON.parse(token);
+      RestangularProvider.setDefaultHeaders({Authorization: token});
     });
 
   /** @ngInject */

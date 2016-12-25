@@ -1,0 +1,55 @@
+<md-dialog id="create-post-dialog" aria-label="createpost" ng-cloak>
+  <form name="createPost_form">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Create post</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="vm.cancel()">
+          <md-icon aria-label="Close dialog">
+            <i class="material-icons md-18">clear</i>
+          </md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container class="md-block">
+          <label>Title</label>
+          <input type="text"
+                 name="Title"
+                 md-autofocus
+                 ng-model="vm.post.title"
+                 ng-minlength="10"
+                 md-maxlength="255"
+                 ng-pattern="/^[a-zA-Z0-9\s\.\#\/]+$/"
+                 required/>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Text</label>
+          <textarea type="text"
+                    name="Text"
+                    ng-model="vm.post.text"
+                    ng-minlength="10"
+                    md-maxlength="100000"
+                    rows="5"
+                    ng-pattern="/^[a-zA-Z0-9\s\.\#\/]+$/"
+                    required>
+          </textarea>
+        </md-input-container>
+      </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button data-ng-click="vm.create()"
+                 type="submit"
+                 ng-disabled="createPost_form.$invalid"
+                 class="md-raised md-primary">
+        Create post
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

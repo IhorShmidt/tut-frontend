@@ -28,117 +28,117 @@
     vm.cancel = cancel;
 
     /**LOGIN DIALOG**/
-    vm.showDialog = showDialog;
-    vm.login = login;
-    vm.loginFail = false;
-    vm.user = {};
-    vm.cleanInput = cleanInput;
-    vm.logout = logout;
-    vm.isLogin = false;
+    // vm.showDialog = showDialog;
+    // vm.login = login;
+    // vm.loginFail = false;
+    // vm.user = {};
+    // vm.cleanInput = cleanInput;
+    // vm.logout = logout;
+    // vm.isLogin = false;
 
     /**SIGNUP DIALOG**/
-    vm.submit = signup;
-    vm.showReg = showReg;
+    // vm.submit = signup;
+    // vm.showReg = showReg;
 
     /** LOGIN DIALOG FUNCTIONS**/
 
-    function showDialog() {
-      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
-
-      $mdDialog.show({
-        controller: function () {
-          return vm;
-        },
-        controllerAs: 'home',
-        templateUrl: './app/components/sign-in/sign.in.html',
-        parent: angular.element(document.body),
-        targetEvent: event,
-        clickOutsideToClose: true,
-        fullscreen: useFullScreen
-      })
-        .then(function (answer) {
-          vm.status = 'You said the information was "' + answer + '".';
-        }, function () {
-          vm.status = 'You cancelled the dialog.';
-        });
-
-    }
-
-    function login(credentials, formIsValid) {
-      if (formIsValid) {
-        postsDaoService.login(credentials)
-          .then(function () {
-            vm.isLogin = true;
-            return $rootScope.$emit('login-success');
-          })
-          .then(function () {
-            vm.cleanInput(credentials);
-            return vm.hide();
-          })
-          .catch(function () {
-            vm.loginFail = true;
-            vm.cleanInput(credentials);
-            setTimeout(function () {
-              vm.loginFail = false;
-            }, 1000);
-          });
-      } else {
-        vm.showValidationError = true;
-        setTimeout(function () {
-          vm.showValidationError = false;
-        }, 3000);
-      }
-    }
-
-    function logout() {
-      postsDaoService.logout();
-      vm.isLogin = false;
-
-    }
-
-    vm.isLogin = function isLogin() {
-      postsDaoService.checkAuthOnRefresh();
-      return $rootScope.isAuthenticated;
-    }();
-
-    function cleanInput(credentials) {
-      credentials.password = '';
-      credentials.email = '';
-    }
+    // function showDialog() {
+    //   var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
+    //
+    //   $mdDialog.show({
+    //     controller: function () {
+    //       return vm;
+    //     },
+    //     controllerAs: 'home',
+    //     templateUrl: './app/components/sign-in/sign.in.html',
+    //     parent: angular.element(document.body),
+    //     targetEvent: event,
+    //     clickOutsideToClose: true,
+    //     fullscreen: useFullScreen
+    //   })
+    //     .then(function (answer) {
+    //       vm.status = 'You said the information was "' + answer + '".';
+    //     }, function () {
+    //       vm.status = 'You cancelled the dialog.';
+    //     });
+    //
+    // }
+    //
+    // function login(credentials, formIsValid) {
+    //   if (formIsValid) {
+    //     postsDaoService.login(credentials)
+    //       .then(function () {
+    //         vm.isLogin = true;
+    //         return $rootScope.$emit('login-success');
+    //       })
+    //       .then(function () {
+    //         vm.cleanInput(credentials);
+    //         return vm.hide();
+    //       })
+    //       .catch(function () {
+    //         vm.loginFail = true;
+    //         vm.cleanInput(credentials);
+    //         setTimeout(function () {
+    //           vm.loginFail = false;
+    //         }, 1000);
+    //       });
+    //   } else {
+    //     vm.showValidationError = true;
+    //     setTimeout(function () {
+    //       vm.showValidationError = false;
+    //     }, 3000);
+    //   }
+    // }
+    //
+    // function logout() {
+    //   postsDaoService.logout();
+    //   vm.isLogin = false;
+    //
+    // }
+    //
+    // vm.isLogin = function isLogin() {
+    //   postsDaoService.checkAuthOnRefresh();
+    //   return $rootScope.isAuthenticated;
+    // }();
+    //
+    // function cleanInput(credentials) {
+    //   credentials.password = '';
+    //   credentials.email = '';
+    // }
 
     /**SIGNUP DIALOG FUNCTIONS**/
 
-    function showReg() {
-      var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
-
-      $mdDialog.show({
-        controller: function () {
-          return vm;
-        },
-        controllerAs: 'home',
-        templateUrl: './app/components/sign-up/sign.up.html',
-        parent: angular.element(document.body),
-        targetEvent: event,
-        clickOutsideToClose: true,
-        fullscreen: useFullScreen
-      })
-        .then(function (answer) {
-          vm.status = 'You said the information was "' + answer + '".';
-        }, function () {
-          vm.status = 'You cancelled the dialog.';
-        });
-
-    }
-
-    function signup(){
-      postsDaoService.createUser(vm.user)
-        .then(function() {
-          vm.user.email = '';
-          vm.user.password = '';
-        });
-
-      showDialog();
-    }
+    // function showReg() {
+    //   var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
+    //
+    //   $mdDialog.show({
+    //     controller: function () {
+    //       return vm;
+    //     },
+    //     controllerAs: 'home',
+    //     templateUrl: './app/components/sign-up/sign.up.html',
+    //     parent: angular.element(document.body),
+    //     targetEvent: event,
+    //     clickOutsideToClose: true,
+    //     fullscreen: useFullScreen
+    //   })
+    //     .then(function (answer) {
+    //       vm.status = 'You said the information was "' + answer + '".';
+    //     }, function () {
+    //       vm.status = 'You cancelled the dialog.';
+    //     });
+    //
+    // }
+    //
+    // function signup(){
+    //   postsDaoService.createUser(vm.user)
+    //     .then(function() {
+    //       vm.user.email = '';
+    //       vm.user.password = '';
+    //     });
+    //
+    //   showDialog();
+    // }
 
     /**POST MODAL DIALOG FUNCTIONS**/
     function showAdvanced(post) {

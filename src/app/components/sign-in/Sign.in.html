@@ -1,10 +1,10 @@
 <md-dialog id="login-dialog" aria-label="Login" ng-cloak>
-  <form novalidate name="signIn_form" ng-submit="home.login(home.user, signIn_form.$valid)">
+  <form novalidate name="signIn_form" ng-submit="vm.login(vm.user, signIn_form.$valid)">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Sign In</h2>
         <span flex></span>
-        <md-button class="md-icon-button" ng-click="home.cancel()">
+        <md-button class="md-icon-button" ng-click="vm.cancel()">
           <md-icon aria-label="Close dialog">
             <i class="material-icons md-18">clear</i>
           </md-icon>
@@ -15,11 +15,12 @@
     <md-dialog-content>
       <div class="md-dialog-content">
         <md-input-container class="md-block"
-                            ng-class="{'has-error': signIn_form.email.$invalid && (signIn_form.email.$touched || home.showValidationError) }">
+                            ng-class="{'has-error': signIn_form.email.$invalid && (signIn_form.email.$touched || vm.showValidationError) }">
           <label>Email</label>
           <input type="email"
                  name="email"
-                 ng-model="home.user.email"
+                 ng-model="vm.user.email"
+                 ng-pattern='/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/i'
                  md-autofocus
                  required/>
         </md-input-container>
@@ -27,7 +28,7 @@
           <label>Password</label>
           <input type="password"
                  name="password"
-                 ng-model="home.user.password"
+                 ng-model="vm.user.password"
                  required
                  ng-minlength="6"/>
           <div ng-messages="signIn_form.password.$error">
@@ -36,7 +37,7 @@
             </div>
           </div>
           <br>
-          <div ng-messages="signIn_form.email.$error || signIn_form.password.$error" ng-show="home.loginFail">
+          <div ng-messages="signIn_form.email.$error || signIn_form.password.$error" ng-show="vm.loginFail">
             <div ng-message="required">The email address or password you entered did not match our records. Please
               double-check and try again.
             </div>

@@ -13,15 +13,12 @@
     <div class="title-menu">
       <h1>Angular Material - Blog</h1>
     </div>
-    <md-button ng-if="!home.isLogin" class="sign-up" ng-click="home.showReg($event)" aria-label="Sign up">
-      Sign up
-    </md-button>
-    <md-button ng-if="!home.isLogin" class="sign-in" ng-click="home.showDialog($event)" aria-label="Sign in">
-      Sign in
-    </md-button>
-       <md-button ng-if="home.isLogin" class="sign-out" ng-click="home.logout()" aria-label="Sign out">
-      Sign out
-    </md-button>
+    <div create-post></div>
+    <div sign-up-button></div>
+
+    <div sign-in-button></div>
+
+
   </md-toolbar>
 
   <!-- Wireframe Container #2 -->

@@ -18,14 +18,14 @@
             return postsDaoService.getLastUsersPosts();
           }
         }
-      })
-      .state('userPosts', {
-        url: '/user/:id',
-        templateUrl: 'app/components/user-posts/user.posts.html',
-        controller: 'UserPostsCtrl',
-        controllerAs: 'vm'
-
       });
+      // .state('userPosts', {
+      //   url: '/user/:id',
+      //   templateUrl: 'app/components/user-posts/user.posts.html',
+      //   controller: 'UserPostsCtrl',
+      //   controllerAs: 'vm'
+      //
+      // });
 
     $urlRouterProvider.otherwise('/');
   }

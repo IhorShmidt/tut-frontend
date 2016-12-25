@@ -10,10 +10,8 @@
     function login(credentials) {
       return Restangular.one('auth').customPOST(credentials)
         .then(function (response) {
-          console.log(response);
           store.set('jwt', response.accessToken);
           var decodedToken = jwtHelper.decodeToken(response.accessToken);
-          console.log(decodedToken);
           store.set('user', {
             id: decodedToken.userId,
             firstName: response.firstName,
@@ -26,7 +24,6 @@
     function checkAuthOnRefresh() {
       var token = store.get('jwt');
       if (token) {
-        console.log('token');
         if (!jwtHelper.isTokenExpired(token)) {
           if (!$rootScope.isAuthenticated) {
             authManager.authenticate();
@@ -60,8 +57,6 @@
     function getUserPost(id) {
       return Restangular.one('posts', id).customGET()
         .then(function (res) {
-          console.log(res);
-
           return res;
         })
     }
@@ -74,8 +69,17 @@
     }
 
     function createUser(data) {
-        return Restangular.all('users').post(data).
-          then(function(res) {
+      return Restangular.all('users').post(data).then(function (res) {
+        return res;
+      })
+    }
+
+    function createPost(data) {
+      var user = store.get('user');
+      return Restangular.all('posts').post({title:data.title,text:data.text,author:user.id }
+      )
+        .then(function (res) {
+          console.log(res);
           return res;
         })
     }
@@ -89,7 +93,8 @@
       login: login,
       logout: logout,
       checkAuthOnRefresh: checkAuthOnRefresh,
-      createUser: createUser
+      createUser: createUser,
+      createPost: createPost
     }
   }
 })();

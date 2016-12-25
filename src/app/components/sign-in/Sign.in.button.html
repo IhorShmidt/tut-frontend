@@ -1,0 +1,6 @@
+<md-button ng-if="!signin.isLogin" class="sign-in" ng-click="signin.showDialog($event)" aria-label="Sign in">
+  Sign in
+</md-button>
+<md-button ng-if="signin.isLogin" class="sign-out" ng-click="signin.logout()" aria-label="Sign out">
+  Sign out
+</md-button>

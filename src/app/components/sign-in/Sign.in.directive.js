@@ -3,18 +3,18 @@
 
   angular
     .module('tutFrontend')
-    .directive('blogNavbar', blogNavbar);
+    .directive('signInButton', signInButton);
 
   /** @ngInject */
-  function blogNavbar() {
+  function signInButton() {
     var directive = {
       restrict: 'EA',
-      templateUrl: 'app/components/navbar/navbar.html',
+      templateUrl: 'app/components/sign-in/sign.in.button.html',
       // scope: {
       //     creationDate: '='
       // },
-      controller: 'BlogNavbarCtrl',
-      controllerAs: 'vm'
+      controller: 'SignInCtrl',
+      controllerAs: 'signin'
       // bindToController: true
     };
 
