@@ -32,7 +32,6 @@
         controllerAs: 'vm',
         templateUrl: './app/components/sign-in/sign.in.html',
         parent: angular.element(document.body),
-        targetEvent: event,
         clickOutsideToClose: true,
         fullscreen: useFullScreen
       })

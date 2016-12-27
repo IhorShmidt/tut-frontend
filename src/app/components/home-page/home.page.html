@@ -2,6 +2,7 @@
 
 
   <md-toolbar layout="row">
+    <a id="top"></a>
     <div class="button-menu">
       <md-button class="menu" hide-gt-lg ng-click="home.toggleList()" aria-label="Show User List">
         <md-icon md-svg-icon="./assets/images/menu.svg"></md-icon>
@@ -43,15 +44,41 @@
             <md-icon md-svg-icon="{{home.selected.avatar}}" class="avatar"></md-icon>
             <h2>{{home.selected.firstName}}&nbsp{{home.selected.lastName}}</h2>
 
-            <div class="post-single" ng-repeat="post in home.lastPosts">
-              <h1 class="title">{{post.title}}</h1>
-              <span class="post__meta">{{post.createdAt| date: "MMMM dd, yyyy 'at' HH:mm"}}</span>
+            <div class="post-single" ng-repeat="item in home.items">
+              <h1 class="title">{{home.lastPosts[item].title}}
+               </h1>
+              <span class="post__meta"> {{home.lastPosts[item].createdAt| date: "MMMM dd, yyyy 'at' HH:mm"}}</span>
               <div class="post__meta__divider"></div>
-              <p>{{post.text|limitTo:250}}...</p>
+              <p>{{home.lastPosts[item].text|limitTo:250}}...</p>
               <div class="post__button">
-                <md-button class="button" aria-label="Show User Post" ng-click="home.showAdvanced(post)">READ MORE</md-button>
+                <md-button class="button" aria-label="Show User Post" ng-click="home.showAdvanced(home.lastPosts[item])">READ MORE</md-button>
               </div>
             </div>
+
+
+
+            <div class="container">
+              <div class="text-center">
+                <ul class="pagination" ng-if="home.pager.pages.length" >
+                  <li ng-class="{disabled:home.pager.currentPage === 1}">
+                    <a ng-click="home.setPage(1)">First</a>
+                  </li>
+                  <li ng-class="{disabled:home.pager.currentPage === 1}">
+                    <a ng-click="home.setPage(home.pager.currentPage - 1)">Previous</a>
+                  </li>
+                  <li ng-repeat="page in home.pager.pages" ng-class="{active:home.pager.currentPage === page}">
+                    <a  ng-click="home.setPage(page)">{{page}}</a>
+                  </li>
+                  <li ng-class="{disabled:home.pager.currentPage === home.pager.totalPages}">
+                    <a ng-click="home.setPage(home.pager.currentPage + 1)">Next</a>
+                  </li>
+                  <li ng-class="{disabled:home.pager.currentPage === home.pager.totalPages}">
+                    <a ng-click="home.setPage(home.pager.totalPages)">Last</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
             <md-button aria-label="Show User Contacts" class="share" md-no-ink ng-click="home.share(home.selected)">
               <md-icon md-svg-icon="./assets/images/share.svg"></md-icon>
             </md-button>
@@ -74,3 +101,4 @@
 
   </div>
 </div>
+

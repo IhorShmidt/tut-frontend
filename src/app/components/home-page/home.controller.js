@@ -6,7 +6,7 @@
     .controller('HomeCtrl', HomeCtrl);
 
   /** @ngInject */
-  function HomeCtrl($state, posts, $mdMedia, $timeout, toastr, $mdBottomSheet, $mdSidenav, $rootScope, postsDaoService, $mdDialog) {
+  function HomeCtrl($state, posts, $mdMedia, $timeout, toastr, $mdBottomSheet, $mdSidenav, $rootScope, postsDaoService, $mdDialog, PagerService, $anchorScroll, $location) {
     var vm = this;
 
     /**HOME PAGE**/
@@ -26,119 +26,33 @@
     vm.answer = answer;
     vm.hide = hide;
     vm.cancel = cancel;
+    vm.scroll = function () {
+      $anchorScroll();
+    };
+    vm.pagination = function () {
+      vm.postsLength = vm.lastPosts.length;
+      vm.dummyItems = _.range(vm.postsLength); // dummy array of items to be paged
+      vm.pager = {};
+      vm.setPage = setPage;
 
-    /**LOGIN DIALOG**/
-    // vm.showDialog = showDialog;
-    // vm.login = login;
-    // vm.loginFail = false;
-    // vm.user = {};
-    // vm.cleanInput = cleanInput;
-    // vm.logout = logout;
-    // vm.isLogin = false;
+      initController();
 
-    /**SIGNUP DIALOG**/
-    // vm.submit = signup;
-    // vm.showReg = showReg;
+      function initController() {
+        vm.setPage(1);
+      }
+      function setPage(page) {
+        if (page < 1 || page > vm.pager.totalPages) {
+          return;
+        }
+        vm.pager = PagerService.GetPager(vm.dummyItems.length, page);
+        vm.items = vm.dummyItems.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
+        vm.scroll();
 
-    /** LOGIN DIALOG FUNCTIONS**/
+      }
 
-    // function showDialog() {
-    //   var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
-    //
-    //   $mdDialog.show({
-    //     controller: function () {
-    //       return vm;
-    //     },
-    //     controllerAs: 'home',
-    //     templateUrl: './app/components/sign-in/sign.in.html',
-    //     parent: angular.element(document.body),
-    //     targetEvent: event,
-    //     clickOutsideToClose: true,
-    //     fullscreen: useFullScreen
-    //   })
-    //     .then(function (answer) {
-    //       vm.status = 'You said the information was "' + answer + '".';
-    //     }, function () {
-    //       vm.status = 'You cancelled the dialog.';
-    //     });
-    //
-    // }
-    //
-    // function login(credentials, formIsValid) {
-    //   if (formIsValid) {
-    //     postsDaoService.login(credentials)
-    //       .then(function () {
-    //         vm.isLogin = true;
-    //         return $rootScope.$emit('login-success');
-    //       })
-    //       .then(function () {
-    //         vm.cleanInput(credentials);
-    //         return vm.hide();
-    //       })
-    //       .catch(function () {
-    //         vm.loginFail = true;
-    //         vm.cleanInput(credentials);
-    //         setTimeout(function () {
-    //           vm.loginFail = false;
-    //         }, 1000);
-    //       });
-    //   } else {
-    //     vm.showValidationError = true;
-    //     setTimeout(function () {
-    //       vm.showValidationError = false;
-    //     }, 3000);
-    //   }
-    // }
-    //
-    // function logout() {
-    //   postsDaoService.logout();
-    //   vm.isLogin = false;
-    //
-    // }
-    //
-    // vm.isLogin = function isLogin() {
-    //   postsDaoService.checkAuthOnRefresh();
-    //   return $rootScope.isAuthenticated;
-    // }();
-    //
-    // function cleanInput(credentials) {
-    //   credentials.password = '';
-    //   credentials.email = '';
-    // }
+    };
+    vm.pagination();
 
-    /**SIGNUP DIALOG FUNCTIONS**/
-
-    // function showReg() {
-    //   var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && vm.customFullscreen;
-    //
-    //   $mdDialog.show({
-    //     controller: function () {
-    //       return vm;
-    //     },
-    //     controllerAs: 'home',
-    //     templateUrl: './app/components/sign-up/sign.up.html',
-    //     parent: angular.element(document.body),
-    //     targetEvent: event,
-    //     clickOutsideToClose: true,
-    //     fullscreen: useFullScreen
-    //   })
-    //     .then(function (answer) {
-    //       vm.status = 'You said the information was "' + answer + '".';
-    //     }, function () {
-    //       vm.status = 'You cancelled the dialog.';
-    //     });
-    //
-    // }
-    //
-    // function signup(){
-    //   postsDaoService.createUser(vm.user)
-    //     .then(function() {
-    //       vm.user.email = '';
-    //       vm.user.password = '';
-    //     });
-    //
-    //   showDialog();
-    // }
 
     /**POST MODAL DIALOG FUNCTIONS**/
     function showAdvanced(post) {
@@ -183,8 +97,11 @@
     }
 
     function goMain() {
+      vm.lastPosts = posts;
       $state.go('home');
+      vm.pagination();
       getLastUsersPosts();
+
     }
 
     function selectUser(user) {
@@ -192,6 +109,7 @@
       postsDaoService.getUserPosts(user)
         .then(function (result) {
           vm.lastPosts = result;
+          vm.pagination();
         });
       $mdBottomSheet.hide();
     }
@@ -247,6 +165,7 @@
           vm.lastPosts = result;
         })
     }
+
   }
 
 })();

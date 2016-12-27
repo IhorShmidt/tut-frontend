@@ -35,7 +35,6 @@
         controllerAs: 'vm',
         templateUrl: './app/components/sign-up/sign.up.html',
         parent: angular.element(document.body),
-        targetEvent: event,
         clickOutsideToClose: true,
         fullscreen: useFullScreen
       })

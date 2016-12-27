@@ -5,7 +5,7 @@
     .module('tutFrontend')
     .config(config)
     .config(['$qProvider', function ($qProvider) {
-    $qProvider.errorOnUnhandledRejections(false);
+    // $qProvider.errorOnUnhandledRejections(true);
   }])
     .config(function (RestangularProvider,  API_EP) {
       RestangularProvider.setBaseUrl(API_EP);
