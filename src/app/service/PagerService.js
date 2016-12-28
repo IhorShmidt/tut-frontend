@@ -9,7 +9,6 @@
     var service = {};
 
     service.GetPager = GetPager;
-
     return service;
 
     function GetPager(totalItems, currentPage, pageSize) {

@@ -45,7 +45,7 @@
           return;
         }
         vm.pager = PagerService.GetPager(vm.dummyItems.length, page);
-        vm.items = vm.dummyItems.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
+        vm.items = vm.lastPosts.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
         vm.scroll();
 
       }
@@ -156,6 +156,7 @@
       postsDaoService.getUserPosts(user)
         .then(function (result) {
           vm.posts = result;
+
         })
     }
 
@@ -163,6 +164,7 @@
       postsDaoService.getLastUsersPosts()
         .then(function (result) {
           vm.lastPosts = result;
+          console.log(vm.lastPosts);
         })
     }
 
