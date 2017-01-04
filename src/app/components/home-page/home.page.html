@@ -1,4 +1,4 @@
-<div layout="column" id="parent">
+<div layout="column" id="parent" ng-cloak>
 
 
   <md-toolbar layout="row">
@@ -40,14 +40,18 @@
     <div class="center-side">
       <div class="action-bar">
         <form class="search">
-          <input type="text" ng-model="post.title" placeholder="Search posts">
+          <input ng-model='home.query' placeholder=' ' type='text'>
+          <ul ng-show='home.query'>
+            <li ng-cloak ng-click='home.select(item)' ng-repeat='item in home.lastPosts | filter: home.query '>
+              {{item.title}}
+            </li>
+          </ul>
         </form>
       </div>
 
       <md-list class="center-height">
         <md-list-item>
           <md-content flex id="content">
-            <!--<p>found {{result.length}}</p>-->
             <!--<md-icon md-svg-icon="{{home.selected.avatar}}" class="avatar"></md-icon>-->
             <h2>{{home.selected.firstName}}&nbsp{{home.selected.lastName}}</h2>
             <div class="post-single" ng-repeat="item in home.items | filter : post as result">
@@ -60,9 +64,6 @@
                 </md-button>
               </div>
             </div>
-            <span ng-show="result.length == 0">
-                <strong>No results found...</strong>
-              </span>
 
             <div class="container">
               <div class="text-center">

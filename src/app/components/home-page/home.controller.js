@@ -5,9 +5,11 @@
     .module('tutFrontend')
     .controller('HomeCtrl', HomeCtrl);
 
+
   /** @ngInject */
-  function HomeCtrl($state, posts, $mdMedia, $timeout, toastr, $mdBottomSheet, $mdSidenav, $rootScope, postsDaoService, $mdDialog, PagerService, $anchorScroll, $location) {
+  function HomeCtrl($state, posts, $mdMedia, $timeout, toastr, $mdBottomSheet, $mdSidenav, $rootScope, postsDaoService, $mdDialog, PagerService, $anchorScroll, $location, $filter) {
     var vm = this;
+
 
     /**HOME PAGE**/
     vm.goMain = goMain;
@@ -40,6 +42,7 @@
       function initController() {
         vm.setPage(1);
       }
+
       function setPage(page) {
         if (page < 1 || page > vm.pager.totalPages) {
           return;
@@ -47,12 +50,18 @@
         vm.pager = PagerService.GetPager(vm.dummyItems.length, page);
         vm.items = vm.lastPosts.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
         vm.scroll();
-
       }
-
     };
     vm.pagination();
 
+
+    /**SEARCH INPUT**/
+    vm.searchPost = '';
+    vm.query = '';
+    vm.select = function (item) {
+      vm.showAdvanced(item);
+      vm.query = '';
+    };
 
     /**POST MODAL DIALOG FUNCTIONS**/
     function showAdvanced(post) {
